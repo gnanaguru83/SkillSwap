@@ -2,7 +2,7 @@
 
 A modern platform for connecting people to exchange skills, knowledge, and expertise. Built with React frontend and Spring Boot backend.
 
-## 🚀 Features
+##  Features
 
 ### Core Features
 - **User Authentication & Profiles** - Secure JWT-based authentication with comprehensive user profiles
@@ -20,7 +20,7 @@ A modern platform for connecting people to exchange skills, knowledge, and exper
 - **Certification Tracking** - Showcase your professional certifications
 - **Email Notifications** - Automated email updates for important events
 
-## 🏗️ Architecture
+##  Architecture
 
 ### Frontend (React)
 - **Location**: `skill-exchange-frontend/`
@@ -42,7 +42,7 @@ A modern platform for connecting people to exchange skills, knowledge, and exper
   - Caching with Redis
   - Comprehensive test coverage
 
-## 🛠️ Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Node.js 18+ (for frontend)
@@ -88,7 +88,7 @@ cd skill-exchange-platform
 docker-compose up
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 SkillSwap/
@@ -115,11 +115,11 @@ SkillSwap/
 └── README.md
 ```
 
-## 🔧 API Documentation
+##  API Documentation
 
 Once the backend is running, visit `http://localhost:8080/swagger-ui.html` for interactive API documentation.
 
-## 🧪 Testing
+##  Testing
 
 ### Frontend Tests
 ```bash
@@ -133,7 +133,7 @@ cd skill-exchange-platform
 ./mvnw test
 ```
 
-## 🚀 Deployment
+##  Deployment
 
 ### Production Build
 
@@ -155,7 +155,7 @@ cd skill-exchange-platform
 docker-compose -f docker-compose.prod.yml up
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -163,7 +163,7 @@ docker-compose -f docker-compose.prod.yml up
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 Environment Variables
+##  Environment Variables
 
 ### Backend (.env)
 ```env
@@ -187,7 +187,7 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 ```
 
-## 🔒 Security Features
+##  Security Features
 
 - JWT-based authentication
 - Password encryption with BCrypt
@@ -196,7 +196,7 @@ REDIS_PORT=6379
 - SQL injection prevention
 - XSS protection
 
-## 📊 Database Schema
+##  Database Schema
 
 The application uses PostgreSQL with the following main entities:
 - Users & User Profiles
@@ -209,7 +209,7 @@ The application uses PostgreSQL with the following main entities:
 
 Database migrations are managed with Flyway and located in `src/main/resources/db/migration/`.
 
-## 🎯 Roadmap
+##  Roadmap
 
 - [ ] Mobile app development
 - [ ] Video call integration
