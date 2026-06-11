@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: skill-exchange-postgres
+    environment:
+      POSTGRES_DB: skillexchange
+      POSTGRES_USER: skilluser
+      POSTGRES_PASSWORD: skillpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skilluser -d skillexchange"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: skill-exchange-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+
+  app:
+    build: .
+    container_name: skill-exchange-api
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/skillexchange
+      SPRING_DATA_REDIS_HOST: redis
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data:
+  redis-data:

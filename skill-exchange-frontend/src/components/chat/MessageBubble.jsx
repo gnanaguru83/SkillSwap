@@ -1,0 +1,2 @@
+import { format } from 'date-fns';
+export default function MessageBubble({ message, mine }) { return <div className={`flex ${mine ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[75%] rounded-2xl px-4 py-2 shadow-sm ${mine ? 'bg-purple-600 text-white' : 'bg-white text-gray-800 ring-1 ring-gray-100'}`}><p className="text-sm">{message.content}</p><p className={`mt-1 text-[11px] ${mine ? 'text-purple-100' : 'text-gray-400'}`}>{message.sentAt ? format(new Date(message.sentAt), 'p') : 'sent'} {mine ? (message.read ? '✓✓' : '✓') : ''}</p></div></div>; }

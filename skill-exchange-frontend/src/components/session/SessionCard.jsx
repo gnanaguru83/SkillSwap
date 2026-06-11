@@ -1,0 +1,12 @@
+import { format } from 'date-fns';
+import { CalendarDays, Clock, ExternalLink, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import UserAvatar from '../common/UserAvatar';
+
+export default function SessionCard({ session, currentUserId, onCancel, onComplete, onRate }) {
+  const teaching = session.teacherId === currentUserId;
+  const partner = { fullName: teaching ? session.learnerName : session.teacherName };
+  const partnerId = teaching ? session.learnerId : session.teacherId;
+  const statusColor = { SCHEDULED: 'bg-blue-50 text-blue-700', COMPLETED: 'bg-green-50 text-green-700', CANCELLED: 'bg-gray-100 text-gray-600', NO_SHOW: 'bg-red-50 text-red-700' }[session.status];
+  return <article className="card"><div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"><div className="flex items-start gap-3"><Link to={`/profile/${partnerId}`}><UserAvatar user={partner} /></Link><div><div className="mb-1 flex flex-wrap items-center gap-2"><h3 className="text-lg font-bold text-gray-900">{session.skillName}</h3><span className={`rounded-full px-2 py-1 text-xs font-bold ${statusColor}`}>{session.status}</span></div><p className="text-sm font-medium text-gray-700">{teaching ? 'You are teaching' : 'You are learning'} with <Link to={`/profile/${partnerId}`} className="font-bold text-purple-700 hover:underline">{partner.fullName}</Link></p><p className="mt-2 flex items-center gap-2 text-sm text-gray-500"><CalendarDays size={15}/>{format(new Date(session.scheduledAt), 'EEEE, MMM d')} at {format(new Date(session.scheduledAt), 'p')}</p><p className="mt-1 flex items-center gap-2 text-sm text-gray-500"><Clock size={15}/>{session.durationMinutes} minutes</p></div></div><div className="flex flex-wrap gap-2"><Link to={`/chat/${partnerId}`} className="btn-secondary inline-flex items-center gap-1" title={`Chat with ${partner.fullName} about this session`}><MessageCircle size={15}/>Chat</Link>{session.meetingLink && <a href={session.meetingLink} target="_blank" className="btn-secondary inline-flex items-center gap-2">Join <ExternalLink size={15}/></a>}{session.status === 'SCHEDULED' && <button onClick={() => onCancel?.(session)} className="btn-danger">Cancel</button>}{session.status === 'SCHEDULED' && <button onClick={() => onComplete?.(session)} className="btn-primary">Complete</button>}{session.status === 'COMPLETED' && <button onClick={() => onRate?.(session)} className="btn-secondary">Rate this session</button>}</div></div></article>;
+}

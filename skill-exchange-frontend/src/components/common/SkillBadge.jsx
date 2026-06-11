@@ -1,0 +1,2 @@
+const styles = { TEACH: 'bg-green-50 text-green-700 ring-green-100', LEARN: 'bg-blue-50 text-blue-700 ring-blue-100', neutral: 'bg-gray-50 text-gray-700 ring-gray-100' };
+export default function SkillBadge({ name, type = 'neutral', size = 'md' }) { return <span className={`inline-flex items-center rounded-full font-semibold ring-1 ${styles[type] || styles.neutral} ${size === 'sm' ? 'px-2 py-1 text-xs' : 'px-3 py-1.5 text-sm'}`}>{name}</span>; }

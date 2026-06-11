@@ -1,0 +1,13 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { PartyPopper } from 'lucide-react';
+import { getSession } from '../../api/session.api';
+import { submitRating } from '../../api/rating.api';
+import { useAuth } from '../../hooks/useAuth';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import RatingStars from '../../components/common/RatingStars';
+import UserAvatar from '../../components/common/UserAvatar';
+
+export default function RatePage(){ const { sessionId }=useParams(); const nav=useNavigate(); const { currentUser }=useAuth(); const session=useQuery({queryKey:['session',sessionId],queryFn:()=>getSession(sessionId)}); const [score,setScore]=useState(0); const [feedback,setFeedback]=useState(''); const [done,setDone]=useState(false); const mutation=useMutation({mutationFn:submitRating,onSuccess:()=>{toast.success('Rating submitted. Thank you!');setDone(true);setTimeout(()=>nav('/sessions'),2000);},onError:e=>toast.error(e.response?.data?.message||'Could not submit rating')}); if(session.isLoading) return <LoadingSpinner/>; const s=session.data; const teaching=s.teacherId===currentUser?.id; const partner={fullName:teaching?s.learnerName:s.teacherName}; const ratedUserId=teaching?s.learnerId:s.teacherId; if(done) return <div className="mx-auto max-w-xl card text-center"><PartyPopper className="mx-auto text-purple-600" size={54}/><h1 className="mt-4 font-display text-4xl font-extrabold">Thank you!</h1><p className="mt-2 text-gray-500">Your feedback helps the community learn better together.</p></div>; return <div className="mx-auto max-w-xl"><div className="card"><div className="flex items-center gap-4"><UserAvatar user={partner} size="lg"/><div><h1 className="font-display text-3xl font-extrabold">Rate your session</h1><p className="text-gray-500">{s.skillName} • {teaching?'You were teaching':'You were learning'}</p></div></div><div className="mt-8 rounded-2xl bg-purple-50 p-6 text-center"><h2 className="mb-4 text-xl font-extrabold">How was your session?</h2><div className="flex justify-center"><RatingStars rating={score} interactive onChange={setScore} size={34}/></div></div><textarea className="input mt-5" rows="5" maxLength="500" placeholder="Share your experience..." value={feedback} onChange={e=>setFeedback(e.target.value)}/><button disabled={!score||mutation.isPending} onClick={()=>mutation.mutate({sessionId,ratedUserId,score,feedback})} className="btn-primary mt-5 w-full">Submit Rating</button></div></div>; }

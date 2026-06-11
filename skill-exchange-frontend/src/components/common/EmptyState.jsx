@@ -1,0 +1,3 @@
+export default function EmptyState({ icon: Icon, title, description, actionLabel, onAction }) {
+  return <div className="card flex flex-col items-center justify-center py-14 text-center"><div className="mb-4 rounded-2xl bg-purple-50 p-4 text-purple-600">{Icon ? <Icon size={32} /> : null}</div><h3 className="text-lg font-bold text-gray-900">{title}</h3><p className="mt-2 max-w-md text-sm text-gray-500">{description}</p>{actionLabel && <button onClick={onAction} className="btn-primary mt-5">{actionLabel}</button>}</div>;
+}
